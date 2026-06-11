@@ -3,4 +3,6 @@ game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Daily
 end
 function JoinElevator(v)
 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Elevators"):WaitForChild("RF:Enter"):InvokeServer(v)
+  task.wait(0.05)
+game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Elevators"):WaitForChild("RF:SetSize"):InvokeServer(1)
 end
