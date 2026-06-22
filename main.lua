@@ -7,9 +7,23 @@ function JoinElevator(v)
 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Elevators"):WaitForChild("RF:Enter"):InvokeServer(v)
   task.wait(0.05)
 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Elevators"):WaitForChild("RF:SetSize"):InvokeServer(1)
+game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Elevators"):WaitForChild("RF:SetReady"):InvokeServer(1)
+
 end
+function checkLobby() 
+	if game.PlaceId == Lobby then
+		return true
+	else
+		return false
+	end
+function CheckGame()
+	if game.PlaceId == Game then
+			return true
+		else
+			return false
+		end
 function Ready()
-game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(	"Difficulty","Ready")
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer("Difficulty","Ready")
   end
 function CheckMap(Maps)
 if game.PlaceId == Game then 
@@ -26,20 +40,21 @@ game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer
 	"Vote",Mode)
   end
 
-  function TDS:Place()
-  local args = {
+  function TDS:Place(Tower,Wave,Rotation,Position,Time)
+		local Time = game:GetService("ReplicatedStorage").State.Timer.Time 
+    repeat task.wait() until Time.Value < Time 
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer({
 	"Troops",
 	"Place",
 	{
-		Rotation = CFrame.new(0, 0, 0, 1, -0, 0, 0, 1, -0, 0, 0, 1),
-		Position = vector.create(5.346579551696777, 0.24998024106025696, 26.561914443969727)
+		Rotation = Rotation,
+		Position = Position
 	},
-	"Scout"
-}
-game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer(unpack(args))
+	Tower
+})
   end
   function TDS:Loadout(List)
-
+-- Soon
   end
   function TDS:Upgrade(Tower,Time,Path)
     local Time = game:GetService("ReplicatedStorage").State.Timer.Time 
