@@ -54,8 +54,19 @@ game:GetService("ReplicatedStorage"):WaitForChild("RemoteFunction"):InvokeServer
 })
   end
   function TDS:Loadout(List)
--- Soon
-  end
+	if CheckPlace() then return end -- equipping is a lobby action
+	task.spawn(function()
+		local owned = RemoteFunction:InvokeServer("Session", "Search", "Inventory.Troops")
+		if type(owned) ~= "table" then Log("Error", "Loadout: inventory read failed") return end
+		for name, data in pairs(owned) do
+			if data.Equipped then RemoteEvent:FireServer("Inventory", "Unequip", "Tower", name) end
+		end
+		for _, name in ipairs(info) do
+			RemoteEvent:FireServer("Inventory", "Equip", "tower", name)
+		end
+	end)
+end
+
   function TDS:Upgrade(Tower,Time,Path)
     local Time = game:GetService("ReplicatedStorage").State.Timer.Time 
     repeat task.wait() until Time.Value < Time 
